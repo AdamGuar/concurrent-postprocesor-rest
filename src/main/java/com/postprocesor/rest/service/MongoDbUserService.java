@@ -25,12 +25,15 @@ public class MongoDbUserService implements UserService{
 	@Override
 	public Mono<Authentication> authenticateUser(User user) {
 		Mono<User> fromRepo = repo.findById(user.getUsername());
-		return fromRepo.flatMap(e->{
+		Mono<Authentication> auth = Mono.just(new Authentication(user, false));
+		auth = fromRepo.flatMap(e->{
 			boolean isPasswordMatching = BCrypt.checkpw(user.getPassword(), e.getPassword());
 			User u = e;
 			u.setPassword("###");
 			return Mono.just(new Authentication(u, isPasswordMatching));
-		});
+		}).defaultIfEmpty(new Authentication(user, false));
+		
+		return auth;
 	}
 
 	@Override
