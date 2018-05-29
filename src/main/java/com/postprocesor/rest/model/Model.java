@@ -4,19 +4,33 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.validation.constraints.NotBlank;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "models")
 public class Model {
+
+    @Id
+    String modelName;
+
 
     private List<Node> nodes = new ArrayList<>();
     private List<ElementSolid> elements = new ArrayList<>();
 
 
-    public Model(InputStream stream) {
+    public Model(String modelName, InputStream stream) {
+
+        this.modelName = modelName;
+        this.parseFile(stream);
+    }
+
+    private void parseFile(InputStream stream) {
         var reader = new BufferedReader(new InputStreamReader(stream));
         reader.lines()
                 .map(s -> s.split(","))
                 .forEach(parts -> {
-                    switch (parts.length) {
+                    switch(parts.length) {
                         case 5: {
                             this.nodes.add(new Node(Integer.parseInt(parts[0].replaceAll("\\s+","")),
                                     Float.parseFloat(parts[1].replaceAll("\\s+","")),
@@ -25,15 +39,16 @@ public class Model {
                                     Double.parseDouble(parts[4].replaceAll("\\s+",""))));
                             break;
                         }
-                        case 10:
+                        case 10: {
                             var nodes = new ArrayList<Node>(8);
-                            for(String nodeId : Arrays.copyOfRange(parts, 2, parts.length-1)) {
-                                nodes.add(this.nodes.get(Integer.parseInt(nodeId.replaceAll("\\s+","")) -1));
+                            for (String nodeId : Arrays.copyOfRange(parts, 2, parts.length - 1)) {
+                                nodes.add(this.nodes.get(Integer.parseInt(nodeId.replaceAll("\\s+", "")) - 1));
                             }
-                            this.elements.add(new ElementSolid(Integer.parseInt(parts[0].replaceAll("\\s+","")),
-                                    Integer.parseInt(parts[1].replaceAll("\\s+","")),
+                            this.elements.add(new ElementSolid(Integer.parseInt(parts[0].replaceAll("\\s+", "")),
+                                    Integer.parseInt(parts[1].replaceAll("\\s+", "")),
                                     nodes));
                             break;
+                        }
                     }
                 });
     }
