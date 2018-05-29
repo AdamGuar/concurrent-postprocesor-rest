@@ -23,8 +23,46 @@ public class Model {
         this.modelName = modelName;
         this.parseFile(stream);
     }
+    
+    
 
-    private void parseFile(InputStream stream) {
+    public String getModelName() {
+		return modelName;
+	}
+
+
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+
+
+
+	public List<Node> getNodes() {
+		return nodes;
+	}
+
+
+
+	public void setNodes(List<Node> nodes) {
+		this.nodes = nodes;
+	}
+
+
+
+	public List<ElementSolid> getElements() {
+		return elements;
+	}
+
+
+
+	public void setElements(List<ElementSolid> elements) {
+		this.elements = elements;
+	}
+
+
+
+	private void parseFile(InputStream stream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         reader.lines()
                 .map(s -> s.split(","))
@@ -67,6 +105,31 @@ class Node {
         this.z = z;
         this.value = value;
     }
+        
+	public Node() {
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public float getZ() {
+		return z;
+	}
+
+	public double getValue() {
+		return value;
+	}
+    
+    
 
 }
 
@@ -82,5 +145,22 @@ class ElementSolid {
         this.pid = pid;
         this.nodes = nodes;
     }
+
+	public int getEid() {
+		return eid;
+	}
+
+	public int getPid() {
+		return pid;
+	}
+
+	public List<Node> getNodes() {
+		return nodes;
+	}
+
+	public ElementSolid() {
+	}
+    
+    
 
 }
