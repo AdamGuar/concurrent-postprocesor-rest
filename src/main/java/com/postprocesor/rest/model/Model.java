@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -26,7 +25,7 @@ public class Model {
     }
 
     private void parseFile(InputStream stream) {
-        var reader = new BufferedReader(new InputStreamReader(stream));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         reader.lines()
                 .map(s -> s.split(","))
                 .forEach(parts -> {
@@ -40,7 +39,7 @@ public class Model {
                             break;
                         }
                         case 10: {
-                            var nodes = new ArrayList<Node>(8);
+                            List<Node> nodes = new ArrayList<Node>(8);
                             for (String nodeId : Arrays.copyOfRange(parts, 2, parts.length - 1)) {
                                 nodes.add(this.nodes.get(Integer.parseInt(nodeId.replaceAll("\\s+", "")) - 1));
                             }
