@@ -1,9 +1,12 @@
 package com.postprocesor.rest.model;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,14 +21,24 @@ public class Model {
     private List<ElementSolid> elements = new ArrayList<>();
 
 
-    public Model(String modelName, InputStream stream) {
+    public Model() {
+	}
+
+
+	public Model(String modelName, List<Node> nodes, List<ElementSolid> elements) {
+		this.modelName = modelName;
+		this.nodes = nodes;
+		this.elements = elements;
+	}
+
+
+	public Model(String modelName, InputStream stream) {
 
         this.modelName = modelName;
         this.parseFile(stream);
     }
     
     
-
     public String getModelName() {
 		return modelName;
 	}
@@ -128,7 +141,7 @@ class Node {
 	public double getValue() {
 		return value;
 	}
-    
+
     
 
 }
