@@ -35,5 +35,4 @@ public class GeneralStatus {
 		this.details = details;
 	}
 
-
 }
