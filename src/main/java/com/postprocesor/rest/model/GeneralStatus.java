@@ -34,6 +34,5 @@ public class GeneralStatus {
 		this.message = message;
 		this.details = details;
 	}
-
-
+	
 }
