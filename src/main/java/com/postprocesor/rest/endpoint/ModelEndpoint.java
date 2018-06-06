@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.postprocesor.rest.model.Model;
+import com.postprocesor.rest.model.ModelID;
 import com.postprocesor.rest.service.ModelService;
 
 import reactor.core.publisher.Flux;
@@ -48,7 +49,7 @@ public class ModelEndpoint {
 	}
 
 	@GetMapping("/getids")
-	public Flux<String> getModelsIDs() {
+	public Flux<ModelID> getModelsIDs() {
 		return service.getAllModelIds();
 	}
 
