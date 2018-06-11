@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.postprocesor.rest.model.Model;
+import com.postprocesor.rest.model.ModelID;
 import com.postprocesor.rest.repo.ModelRepository;
 
 import reactor.core.publisher.Flux;
@@ -25,9 +26,9 @@ public class MongoDbModelService implements ModelService{
 	}
 
 	@Override
-	public Flux<String> getAllModelIds() {
+	public Flux<ModelID> getAllModelIds() {
 		return repo.findAll().map(e->{
-			return e.getModelName();
+			return new ModelID(e.getModelName());
 		});
 	}
 

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.postprocesor.rest.model.Model;
+import com.postprocesor.rest.model.ModelID;
+import com.postprocesor.rest.model.ModelRequest;
 import com.postprocesor.rest.service.ModelService;
 
 import reactor.core.publisher.Flux;
@@ -46,9 +48,16 @@ public class ModelEndpoint {
 		return service.saveModel(model);
 
 	}
+	
+	@PostMapping("/savemodel")
+	public Mono<Void> saveModel(@RequestBody ModelRequest re) throws IOException {
+		Model model = new Model(re.getName(),new ByteArrayInputStream(re.getContent().getBytes()));
+		return service.saveModel(model);
+
+	}
 
 	@GetMapping("/getids")
-	public Flux<String> getModelsIDs() {
+	public Flux<ModelID> getModelsIDs() {
 		return service.getAllModelIds();
 	}
 
