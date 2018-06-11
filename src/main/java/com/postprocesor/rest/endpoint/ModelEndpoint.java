@@ -65,6 +65,5 @@ public class ModelEndpoint {
 	public Mono<Model> getModelByID(@PathVariable String modelname) {
 		return service.getModelById(modelname);
 	}
-
-
+	
 }
